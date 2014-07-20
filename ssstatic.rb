@@ -4,6 +4,7 @@ require 'aws-sdk-core'
 require 'slop'
 
 class WebBucket
+
   def initialize
     opts = Slop.parse do
       banner 'Usage: ssstatic.rb --domain <domain>'
@@ -20,15 +21,19 @@ class WebBucket
     @index = opts[:index]
     @error = opts[:error]
   end
+
   def domain
     @domain
   end
+
   def region
     @region
   end
+
   def s3_endpoint
     @s3_endpoint = @domain + '.s3-website-' + @region + '.amazonaws.com'
   end
+
   def policy
     policy = '{
       "Version":"2012-10-17",
@@ -42,6 +47,7 @@ class WebBucket
     }'
     return policy
   end
+
   def create_bucket
     @s3 = Aws::S3::Client.new(region: @region)
     begin
@@ -54,6 +60,7 @@ class WebBucket
       abort
     end
   end
+
   def define_policy
     begin
       @s3.put_bucket_policy(
@@ -65,6 +72,7 @@ class WebBucket
       abort
     end
   end
+
   def configure_website
     begin
       @s3.put_bucket_website(
@@ -83,10 +91,12 @@ class WebBucket
       abort
     end
   end
+
   def exit(help)
     puts help
     abort
   end
+
 end
 
 b = WebBucket.new
