@@ -7,7 +7,7 @@ class WebBucket
 
   def initialize
     opts = Slop.parse do
-      banner 'Usage: ssstatic.rb --domain <domain>'
+      banner 'Usage: s3tatic.rb --domain <domain>'
       on 'domain=', 'myweb.mydomain.com'
       on 'region=', 'aws region', :default => 'us-east-1'
       on 'index=', 'index page', :default => 'index.html'
