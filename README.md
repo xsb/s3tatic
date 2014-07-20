@@ -5,7 +5,7 @@ Creates and configures Amazon S3 buckets to use as a static web hosting.
 
 ssstatic expects the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to be able to use the Amazon Web Services API.
 
-To put files in the S3 bucket after creating it, use some other tool like [http://s3tools.org/s3cmd-sync](s3cmd).
+To put files in the S3 bucket after creating it, use some other tool like [s3cmd](http://s3tools.org/s3cmd-sync).
 
 ```sh
 $ ssstatic.rb
