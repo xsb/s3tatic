@@ -3,23 +3,17 @@
 require 'aws-sdk-core'
 require 'slop'
 
-class WebBucket
+REGION = "us-east-1"
+INDEX = "index.html"
+ERROR = "error.html"
 
-  def initialize
-    opts = Slop.parse do
-      banner 'Usage: s3tatic.rb --domain <domain>'
-      on 'domain=', 'myweb.mydomain.com'
-      on 'region=', 'aws region', :default => 'us-east-1'
-      on 'index=', 'index page', :default => 'index.html'
-      on 'error=', 'error page', :default => 'error.html'
-    end
-    if not opts[:domain]
-      self.exit(opts.help)
-    end
-    @domain = opts[:domain]
-    @region = opts[:region]
-    @index = opts[:index]
-    @error = opts[:error]
+class S3tatic
+
+  def initialize(domain: nil, region: REGION, index: INDEX, error: ERROR)
+    @domain = domain
+    @region = region
+    @index = index
+    @error = error
   end
 
   def domain
@@ -31,7 +25,7 @@ class WebBucket
   end
 
   def s3_endpoint
-    @s3_endpoint = @domain + '.s3-website-' + @region + '.amazonaws.com'
+    @s3_endpoint = "#{@domain}.s3-website-#{region}.amazonaws.com"
   end
 
   def policy
@@ -92,26 +86,43 @@ class WebBucket
     end
   end
 
-  def exit(help)
-    puts help
+end
+
+if __FILE__ == $0
+
+  opts = Slop.parse do
+    banner 'Usage: s3tatic.rb --domain <domain>'
+    on 'domain=', 'myweb.mydomain.com'
+    on 'region=', 'aws region', :default => REGION
+    on 'index=', 'index page', :default => INDEX
+    on 'error=', 'error page', :default => ERROR
+  end
+
+  if not opts[:domain]
+    puts opts.help
     abort
   end
 
+  s = S3tatic.new(
+    domain: opts[:domain],
+    region: opts[:region],
+    index: opts[:index],
+    error: opts[:error],
+  )
+
+  puts " >> Creating S3 bucket #{s.domain} on #{s.region}"
+  s.create_bucket
+
+  puts ' >> Defining bucket policy'
+  s.define_policy
+
+  puts ' >> Configuring website attributes'
+  s.configure_website
+
+  puts " >> Done. What's next?\n" +
+       "(1) Manually create the CNAME registry #{s.domain}\n" +
+       "    pointing to #{s.s3_endpoint}\n" +
+       "(2) Put files in the bucket and visit http://#{s.domain}"
+
 end
-
-b = WebBucket.new
-
-puts '>> Creating S3 bucket ' + b.domain + ' on ' + b.region
-b.create_bucket
-
-puts '>> Defining bucket policy'
-b.define_policy
-
-puts '>> Configuring website attributes'
-b.configure_website
-
-puts ">> Done. What's next?"
-puts '(1) Manually create the CNAME registry ' + b.domain +
-  "\n    pointing to " + b.s3_endpoint
-puts '(2) Put files in the bucket and visit http://' + b.domain
 

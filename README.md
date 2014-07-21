@@ -18,10 +18,10 @@ Usage: s3tatic.rb --domain <domain>
 
 ```sh
 $ s3tatic.rb --domain myweb.mydomain.com
->> Creating S3 bucket myweb.mydomain.com on us-east-1
->> Defining bucket policy
->> Configuring website attributes
->> Done. What's next?
+ >> Creating S3 bucket myweb.mydomain.com on us-east-1
+ >> Defining bucket policy
+ >> Configuring website attributes
+ >> Done. What's next?
 (1) Manually create the CNAME registry myweb.mydomain.com
     pointing to myweb.mydomain.com.s3-website-us-east-1.amazonaws.com
 (2) Put files in the bucket and visit http://myweb.mydomain.com
