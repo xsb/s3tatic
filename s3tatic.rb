@@ -32,9 +32,9 @@ class S3tatic
     policy = '{
       "Version":"2012-10-17",
       "Statement":[{
-        "Sid":"PublicReadGetObject",
+        "Sid":"AddPerm",
         "Effect":"Allow",
-        "Principal": {"AWS": "*"},
+        "Principal": "*",
         "Action":["s3:GetObject"],
         "Resource":["arn:aws:s3:::' + @domain + '/*"]
       }]
@@ -50,7 +50,7 @@ class S3tatic
         acl: 'public-read'
       )
     rescue Exception => e
-      puts 'Error: ' + e.message
+      puts "Error: #{e.message}"
       abort
     end
   end
@@ -62,7 +62,7 @@ class S3tatic
         policy: self.policy
       )
     rescue Exception => e
-      puts 'Error: ' + e.message
+      puts "Error: #{e.message}"
       abort
     end
   end
@@ -81,7 +81,7 @@ class S3tatic
         }
       )
     rescue Exception => e
-      puts 'Error: ' + e.message
+      puts "Error: #{e.message}"
       abort
     end
   end
