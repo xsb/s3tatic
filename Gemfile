@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
 gem 'aws-sdk-core'
-gem 'slop'
+gem 'slop', '3.6.0'
