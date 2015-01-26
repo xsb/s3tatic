@@ -22,7 +22,7 @@ $ s3tatic.rb --domain myweb.mydomain.com
  >> Defining bucket policy
  >> Configuring website attributes
  >> Done. What's next?
-(1) Manually create the A DNS registry myweb.mydomain.com
+(1) Manually create the CNAME registry myweb.mydomain.com
     pointing to myweb.mydomain.com.s3-website-us-east-1.amazonaws.com
 (2) Put files in the bucket and visit http://myweb.mydomain.com
 ```

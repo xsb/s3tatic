@@ -120,7 +120,7 @@ if __FILE__ == $0
   s.configure_website
 
   puts " >> Done. What's next?\n" +
-       "(1) Manually create the A DNS registry #{s.domain}\n" +
+       "(1) Manually create the CNAME registry #{s.domain}\n" +
        "    pointing to #{s.s3_endpoint}\n" +
        "(2) Put files in the bucket and visit http://#{s.domain}"
 
